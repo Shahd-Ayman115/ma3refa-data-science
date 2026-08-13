@@ -111,13 +111,13 @@ def recommend_quizzes(recent_quizzes):
 
         # Difficulty decision
         if accuracy < 0.40:
-            difficulty = 1
+            difficulty = "easy"
 
         elif accuracy < 0.70:
-            difficulty = 2
+            difficulty = "medium"
 
         else:
-            difficulty = 3
+            difficulty  = "hard"
 
 
         recommendations.append({
