@@ -31,7 +31,7 @@ class RecommendationRequest(BaseModel):
 # HOME
 # =========================================================
 
-@app.get("/api")
+@app.get("/")
 def home():
     return {
         "message": "Data Science API is running"
@@ -134,7 +134,7 @@ def recommend_quizzes(recent_quizzes):
 # RECOMMENDATION API
 # =========================================================
 
-@app.post("/api/recommendations")
+@app.post("/recommendations")
 def get_recommendations(
     request: RecommendationRequest
 ):
