@@ -18,7 +18,7 @@ class Answer(BaseModel):
 class Quiz(BaseModel):
     quiz_id: int
     subcategory: str
-    difficulty: int
+    difficulty: str
     answers: List[Answer]
 
 
