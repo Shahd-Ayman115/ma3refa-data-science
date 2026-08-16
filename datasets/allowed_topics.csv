@@ -1,0 +1,21 @@
+id,subcategory_id,topic_name
+1,1,Loops
+2,1,Data Types
+3,1,OOP
+4,1,Functions
+5,2,Arrays
+6,2,Closures
+7,2,Promises
+8,3,SQL Joins
+9,3,Normalization
+10,3,Indexing
+11,4,Linear Equations
+12,4,Quadratics
+13,5,Triangles
+14,5,Circles
+15,6,Kinematics
+16,6,Forces
+17,7,Cell Structure
+18,7,Genetics
+19,8,Tenses
+20,8,Prepositions
