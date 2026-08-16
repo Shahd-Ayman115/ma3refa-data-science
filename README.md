@@ -4,7 +4,7 @@
 
 This repository contains the Data Science component of **Ma3refa**, an AI-powered smart assessment and learning platform.
 
-The Data Science component is responsible for analyzing student quiz performance and providing personalized quiz recommendations based on the student's weakest topics.
+The Data Science component focuses on analyzing student quiz performance and providing personalized quiz recommendations based on the student's weakest topics.
 
 ## Technologies & Libraries
 
@@ -28,10 +28,19 @@ ma3refa-data-science/
 │   ├── vercel.json
 │   └── Data__Analysis.ipynb
 │
+├── datasets/
+│   ├── users.csv
+│   ├── categories.csv
+│   ├── subcategories.csv
+│   ├── user_subcategory_points.csv
+│   ├── quizzes.csv
+│   ├── answers.csv
+│   └── allowed_topics.csv
+│
 └── README.md
 ```
 
-### Files
+### Files and Folders
 
 * **`Data__Analysis.ipynb`**
   Contains the data analysis and exploration of student quiz performance.
@@ -44,6 +53,9 @@ ma3refa-data-science/
 
 * **`vercel.json`**
   Contains the configuration used to deploy the API on Vercel.
+
+* **`datasets/`**
+  Contains the synthetic datasets used for data analysis, development, testing, and demonstration.
 
 ## Data Analysis
 
@@ -58,6 +70,8 @@ The data analysis focuses on student quiz performance, including:
 
 The analysis is documented in `Data__Analysis.ipynb`.
 
+The analysis was performed using synthetic datasets created for development, testing, and demonstration purposes.
+
 ## Recommendation System
 
 The recommendation system provides personalized recommendations based on the student's recent quiz performance.
@@ -65,21 +79,21 @@ The recommendation system provides personalized recommendations based on the stu
 ### Flow
 
 1. The backend sends the student's ID and recent quiz results to the Data Science API.
-2. The API takes the latest 5 quizzes.
+2. The API considers the latest 5 quizzes.
 3. Answers are grouped by topic.
 4. The accuracy of each topic is calculated.
-5. Topics are sorted from weakest to strongest based on accuracy.
+5. Topics are sorted based on their accuracy.
 6. The 3 weakest topics are selected.
-7. A difficulty level is assigned to each recommended topic based on its accuracy.
+7. A difficulty level is assigned based on the student's accuracy.
 8. The recommendations are returned to the backend.
 
 ### Difficulty Rules
 
-| Accuracy      | Difficulty |
-| ------------- | ---------- |
-| `< 40%`       | Easy       |
-| `40% - < 70%` | Medium     |
-| `>= 70%`      | Hard       |
+| Accuracy            | Difficulty |
+| ------------------- | ---------- |
+| Less than 40%       | Easy       |
+| 40% – less than 70% | Medium     |
+| 70% or higher       | Hard       |
 
 ## API
 
@@ -109,9 +123,9 @@ Response:
 /api/recommendations
 ```
 
-#### Request
+### Request
 
-The backend sends a `student_id` and the student's recent quizzes.
+The backend sends the student's ID and recent quiz results.
 
 Example:
 
@@ -150,7 +164,7 @@ Each answer contains:
 * `topic`
 * `is_correct`
 
-#### Response
+### Response
 
 ```json
 {
@@ -197,7 +211,7 @@ http://127.0.0.1:8000/docs
 
 ## Deployment
 
-The API is configured for deployment using Vercel.
+The API is configured for deployment using **Vercel**.
 
 The `vercel.json` configuration routes requests to the FastAPI application in `api/index.py`.
 
