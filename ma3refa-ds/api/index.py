@@ -1,9 +1,11 @@
-from fastapi import FastAPI
+import os
+from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel
 from typing import List
 
 
 app = FastAPI()
+DS_SECRET = os.getenv("DS_SECRET")
 
 
 # =========================================================
@@ -136,8 +138,14 @@ def recommend_quizzes(recent_quizzes):
 
 @app.post("/api/recommendations")
 def get_recommendations(
-    request: RecommendationRequest
+    request: RecommendationRequest,
+    x_api_key: str = Header(None)
 ):
+    if x_api_key != DS_SECRET:
+        raise HTTPException(
+            status_code=401,
+            detail="Unauthorized"
+        )
 
     # Take the latest 5 quizzes
     recent_quizzes = request.recent_quizzes[-5:]
