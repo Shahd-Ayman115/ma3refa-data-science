@@ -139,9 +139,9 @@ def recommend_quizzes(recent_quizzes):
 @app.post("/api/recommendations")
 def get_recommendations(
     request: RecommendationRequest,
-    authorization: str = Header(None)
+    x_api_key: str = Header(None)
 ):
-    if authorization != f"Bearer {DS_SECRET}":
+    if x_api_key != DS_SECRET:
         raise HTTPException(
             status_code=401,
             detail="Unauthorized"
