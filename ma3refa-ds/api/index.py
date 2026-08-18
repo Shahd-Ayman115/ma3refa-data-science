@@ -92,13 +92,34 @@ def recommend_quizzes(recent_quizzes):
 
     # -----------------------------------------
     # Find weakest topics
+    # Maximum 2 recommendations per subcategory
+    # Maximum 3 recommendations overall
     # -----------------------------------------
 
     topic_performance.sort(
         key=lambda x: x["accuracy"]
     )
 
-    weakest_topics = topic_performance[:3]
+    weakest_topics = []
+    subcategory_counts = {}
+
+    for topic in topic_performance:
+
+        subcategory = topic["subcategory"]
+
+        # Skip if this subcategory already has 2 recommendations
+        if subcategory_counts.get(subcategory, 0) >= 2:
+            continue
+
+        weakest_topics.append(topic)
+
+        subcategory_counts[subcategory] = (
+            subcategory_counts.get(subcategory, 0) + 1
+        )
+
+        # Stop after 3 recommendations
+        if len(weakest_topics) == 3:
+            break
 
 
     # -----------------------------------------
@@ -119,8 +140,7 @@ def recommend_quizzes(recent_quizzes):
             difficulty = "medium"
 
         else:
-            difficulty  = "hard"
-
+            difficulty = "hard"
 
         recommendations.append({
             "subcategory": topic["subcategory"],
@@ -141,6 +161,8 @@ def get_recommendations(
     request: RecommendationRequest,
     x_api_key: str = Header(None)
 ):
+
+    # Check shared secret
     if x_api_key != DS_SECRET:
         raise HTTPException(
             status_code=401,
@@ -150,12 +172,10 @@ def get_recommendations(
     # Take the latest 5 quizzes
     recent_quizzes = request.recent_quizzes[-5:]
 
-
     # Run recommendation system
     recommendations = recommend_quizzes(
         recent_quizzes
     )
-
 
     # Return recommendations
     return {
